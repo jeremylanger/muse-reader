@@ -22,56 +22,56 @@ function App() {
     }
   }, []);
 
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown, false);
 
     return () => document.removeEventListener("keydown", handleKeydown, false);
   }, [handleKeydown]);
 
+  const animateSentence = useCallback((prev: string, curr: string) => {
+    const span = document.getElementById("next-word");
+    if (!span) return;
+
+    setPartialSentence(sentence => (sentence + " " + prev).trim());
+    setNextWord(curr);
+
+    const basePause = 500;
+    const wordLengthPause = curr.length * 40;
+    const commaPause = curr.endsWith(",") ? 150 : 0;
+    const periodPause = curr.endsWith(";") || curr.endsWith(".") || curr.endsWith('."') ? 250 : 0;
+
+    span.style["transitionDuration"] = "0ms";
+    span.style["opacity"] = "0%";
+
+    setTimeout(() => {
+      span.style["transitionDuration"] = "500ms";
+      span.style["opacity"] = "100%";
+    }, 10);
+  }, []);
+
   useEffect(() => {
-    let cancel = false;
-    const animateSentence = async () => {
-      const span = document.getElementById("next-word");
-      if (!span) return;
+    const words = sentences[sentenceIndex].trim().split(" ");
 
-      const split = sentences[sentenceIndex].trim().split(" ");
-      for (let i = -1; i < split.length - 1; i++) {
-        if (cancel) return;
+    let wordIndex = -1;
+    const interval = setInterval(() => {
+      const prev = wordIndex === -1 ? "" : words[wordIndex];
+      const curr = words[wordIndex + 1];
 
-        const curr = i === -1 ? "" : split[i];
-        const next = split[i + 1];
-
-        setPartialSentence(sentence => (sentence + " " + curr).trim());
-        setNextWord(next);
-
-        const basePause = 500;
-        const wordLengthPause = next.length * 40;
-        const commaPause = next.endsWith(",") ? 150 : 0;
-        const periodPause = next.endsWith(";") || next.endsWith(".") || next.endsWith('."') ? 250 : 0;
-    
-        span.style["transitionDuration"] = "0ms";
-        span.style["opacity"] = "0%";
-    
-        setTimeout(() => {
-          span.style["transitionDuration"] = "500ms";
-          span.style["opacity"] = "100%";
-        }, 10);
-
-        // await sleep(basePause + wordLengthPause + commaPause + periodPause);
-        await sleep(500);
+      if (wordIndex + 1 === words.length) {
+        clearInterval(interval);
+        return;
       }
-    };
 
-    animateSentence();
+      animateSentence(prev, curr);
+      wordIndex++;
+    }, 500);
 
     return () => {
-      console.log("deleting shit")
+      clearInterval(interval);
       setPartialSentence("");
-      cancel = true;
+      setNextWord("");
     }
-  }, [sentenceIndex]);
+  }, [sentenceIndex, animateSentence]);
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-white font-dm-serif text-5xl leading-tight">
