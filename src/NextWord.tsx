@@ -5,9 +5,6 @@ interface Props {
 	word: string;
 }
 
-// Every time we change the word, we want to:
-// Hide the new word instantly (opacity 0, no transition)
-// Start fading it in right afterward (opacity 100, transition)
 export const NextWord = ({ delay, word }: Props) => {
 	const [fadeIn, setFadeIn] = useState(false);
 

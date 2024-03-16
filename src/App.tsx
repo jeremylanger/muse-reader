@@ -30,19 +30,20 @@ function App() {
     const basePause = 150;
     const wordLengthPause = word.length * 40;
     const commaPause = word.endsWith(",") ? 150 : 0;
-    const periodPause = word.endsWith(";") || word.endsWith(".") || word.endsWith('."') ? 250 : 0;
+    const sentencePause = word.endsWith(";") || word.endsWith(".") || word.endsWith('."') || word.endsWith('!') || word.endsWith('!"') || word.endsWith('?') || word.endsWith('?"') ? 350 : 0;
 
-    return basePause + wordLengthPause + commaPause + periodPause;
+    return basePause + wordLengthPause + commaPause + sentencePause;
   };
 
   let delay = 0;
+  const words = sentences[sentenceIndex].split(" ");
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif text-5xl leading-tight">
       <div className="max-w-[800px] m-auto mt-[360px]">
-        {sentences[sentenceIndex].split(" ").map((word, i) => {
-          console.log(word, delay);
-          delay += calculateDelay(word);
+        {words.map((word, i) => {
+          const prevWord = i === 0 ? "" : words[i - 1];
+          delay += calculateDelay(prevWord);
           return <NextWord key={`${i}-${word}`} delay={delay} word={word} />;
         })}
       </div>
