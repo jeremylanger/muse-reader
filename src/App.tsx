@@ -9,9 +9,7 @@ const sentences = [
 ];
 
 function App() {
-  const [partialSentence, setPartialSentence] = useState("");
   const [sentenceIndex, setSentenceIndex] = useState(0);
-  const [nextWord, setNextWord] = useState("");
 
   const handleKeydown = useCallback((event: KeyboardEvent) => {
     if (event.key === "ArrowRight" || event.key === " ") {
@@ -28,57 +26,25 @@ function App() {
     return () => document.removeEventListener("keydown", handleKeydown, false);
   }, [handleKeydown]);
 
-  const animateSentence = useCallback((prev: string, curr: string) => {
-    const span = document.getElementById("next-word");
-    if (!span) return;
+  const calculateDelay = (word: string) => {
+    const basePause = 150;
+    const wordLengthPause = word.length * 40;
+    const commaPause = word.endsWith(",") ? 150 : 0;
+    const periodPause = word.endsWith(";") || word.endsWith(".") || word.endsWith('."') ? 250 : 0;
 
-    setPartialSentence(sentence => (sentence + " " + prev).trim());
-    setNextWord(curr);
+    return basePause + wordLengthPause + commaPause + periodPause;
+  };
 
-    const basePause = 500;
-    const wordLengthPause = curr.length * 40;
-    const commaPause = curr.endsWith(",") ? 150 : 0;
-    const periodPause = curr.endsWith(";") || curr.endsWith(".") || curr.endsWith('."') ? 250 : 0;
-
-    span.style["transitionDuration"] = "0ms";
-    span.style["opacity"] = "0%";
-
-    setTimeout(() => {
-      span.style["transitionDuration"] = "500ms";
-      span.style["opacity"] = "100%";
-    }, 10);
-  }, []);
-
-  useEffect(() => {
-    const words = sentences[sentenceIndex].trim().split(" ");
-
-    let wordIndex = -1;
-    const interval = setInterval(() => {
-      const prev = wordIndex === -1 ? "" : words[wordIndex];
-      const curr = words[wordIndex + 1];
-
-      if (wordIndex + 1 === words.length) {
-        clearInterval(interval);
-        return;
-      }
-
-      animateSentence(prev, curr);
-      wordIndex++;
-    }, 500);
-
-    return () => {
-      clearInterval(interval);
-      setPartialSentence("");
-      setNextWord("");
-    }
-  }, [sentenceIndex, animateSentence]);
+  let delay = 0;
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-white font-dm-serif text-5xl leading-tight">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif text-5xl leading-tight">
       <div className="max-w-[800px] m-auto mt-[360px]">
-        <span className="inline" dangerouslySetInnerHTML={{__html: partialSentence + " "}} />
-        {/* <NextWord word={nextWord} /> */}
-        <span id="next-word" className="transition-opacity inline-block" dangerouslySetInnerHTML={{__html: nextWord}} />
+        {sentences[sentenceIndex].split(" ").map((word, i) => {
+          console.log(word, delay);
+          delay += calculateDelay(word);
+          return <NextWord key={`${i}-${word}`} delay={delay} word={word} />;
+        })}
       </div>
     </div>
   );

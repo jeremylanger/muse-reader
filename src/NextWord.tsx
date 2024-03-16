@@ -1,28 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
+	delay: number;
 	word: string;
 }
 
 // Every time we change the word, we want to:
 // Hide the new word instantly (opacity 0, no transition)
 // Start fading it in right afterward (opacity 100, transition)
-export const NextWord = ({ word }: Props) => {
+export const NextWord = ({ delay, word }: Props) => {
+	const [fadeIn, setFadeIn] = useState(false);
 
 	useEffect(() => {
-		const span = document.getElementById("next-word");
-		if (!span) return;
-
-		span.style["transitionDuration"] = "0ms";
-		span.style["opacity"] = "0%";
-
 		setTimeout(() => {
-			span.style["transitionDuration"] = "1000ms";
-			span.style["opacity"] = "100%";
-		}, 10);
-	}, [word]);
+			setFadeIn(true);
+		}, delay);
+	}, []);
 
 	return (
-		<span id="next-word" className="transition-opacity inline-block" dangerouslySetInnerHTML={{__html: word}} />
+		<span className={`${fadeIn ? "opacity-100" : "opacity-0"} duration-500 mr-3 transition-opacity inline-block`} dangerouslySetInnerHTML={{__html: word}} />
 	);
 }
