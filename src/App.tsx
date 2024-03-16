@@ -9,6 +9,12 @@ const sentences = [
   'He scowled, pushing himself back in the chair.',
   '"Whatever rumors you\'ve heard about our schools," she said, "the truth is far greater. If I wished to destroy the Duke . . . or you, or any other person within my reach, you could not stop me."',
   'And she thought: <i>Why do I let pride drive such words out of me? This is not the way I was trained. This is not how I must shock him.</i>',
+  'Hawat slipped a hand beneath his tunic where he kept a tiny projector of poison darts. <i>She wears no shield</i>, he thought. <i>Is this just a brag she makes? I could slay her now . . . but, ah-h-h-h, the consequences if I\'m wrong.</i>',
+  'Jessica saw the gesture toward his pocket, said: "Let us pray violence shall never be necessary between us."',
+  '"A worthy prayer," he agreed.',
+  '"Meanwhile, the sickness spreads among us," she said. "I must ask you again: Isn\'t it more reasonable to suppose the Harkonnens have planted this suspicion to pit the two of us against each other?"',
+  '"We appear to\'ve returned to stalemate," he said.',
+  'She sighed, thinking: <i>He\'s almost ready for it.</i>',
 ];
 
 function App() {
@@ -59,7 +65,7 @@ function App() {
             const prevWord = i === 0 ? "" : words[i - 1];
             delay += calculateDelay(prevWord);
 
-            return <NextWord key={`${i}-${word}`} delay={delay} word={displayedWord} />;
+            return <NextWord key={`${sentenceIndex}-${i}-${word}`} delay={delay} word={displayedWord} />;
           })}
         </div>
       </div>

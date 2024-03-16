@@ -12,7 +12,7 @@ export const NextWord = ({ delay, word }: Props) => {
 		setTimeout(() => {
 			setFadeIn(true);
 		}, delay);
-	}, []);
+	}, [delay]);
 
 	return (
 		<span className={`${fadeIn ? "opacity-100" : "opacity-0"} duration-500 mr-3 transition-opacity inline-block`} dangerouslySetInnerHTML={{__html: word}} />
