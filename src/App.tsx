@@ -3172,8 +3172,10 @@ const parser = new DOMParser();
 const htmlDoc = parser.parseFromString(xmlData.replaceAll(/<\?xml (.*)\?>/g, ""), 'text/xml');
 const sentences = Array.from(htmlDoc.body.children);
 
+const parseAsXml = (data: string): Document => parser.parseFromString(data.replaceAll(/<\?xml (.*)\?>/g, ""), 'text/xml');
+
 const getFullPath = (data: string): string => {
-  const container = parser.parseFromString(data.replaceAll(/<\?xml (.*)\?>/g, ""), 'text/xml');
+  const container = parseAsXml(data);
   const fullPath = container.querySelector("rootfile")?.getAttribute("full-path");
 
   if (!fullPath) {
@@ -3189,6 +3191,7 @@ const readFile = (blob: Blob): Promise<string> => {
     reader.onload = (e) => {
       const result = e?.target?.result as string;
       if (!result) {
+        console.log("File is empty");
         reject(new Error("File is empty"));
         return;
       }
@@ -3223,8 +3226,43 @@ const getRootFilePathFromContainerFile = async (): Promise<string | undefined> =
   }
 };
 
+const getManifestFromRootFile = async (rootFilePath: string): Promise<HTMLCollection | undefined> => {
+  const blob = await openFile(`/assets/dune-v2/${rootFilePath}`);
+  try {
+    const result = await readFile(blob);
+    const rootFile = parseAsXml(result);
+    const manifest = rootFile.querySelector("manifest")?.children;
+
+    if (!manifest) {
+      throw new Error(`No manifest found in ${rootFilePath}`);
+    }
+
+    return manifest;
+  } catch (error) {
+    console.error("Error reading file:", error);
+  }
+};
+
 const openDuneEpub = async () => {
-  const rootFilePath = getRootFilePathFromContainerFile();
+  const rootFilePath = await getRootFilePathFromContainerFile();
+  console.log({ rootFilePath });
+  if (!rootFilePath) {
+    console.error("No root file path found");
+    return;
+  }
+
+  const manifest = await getManifestFromRootFile(rootFilePath);
+  if (!manifest) {
+    console.error("No manifest found");
+    return;
+  }
+
+  const chapterFilenames = Array.from(manifest)
+    .filter((el: Element) => el.getAttribute("media-type") === "application/xhtml+xml")
+    .map((el: Element) => el.getAttribute("href"));
+  const chapterDirectory = rootFilePath.split('/').slice(0, -1).join('/');
+  const chapterPaths = chapterFilenames.map(filename => `${chapterDirectory}/${filename}`);
+  console.log(chapterPaths);
 };
 
 openDuneEpub();
