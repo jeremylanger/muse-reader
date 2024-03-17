@@ -3175,7 +3175,6 @@ const sentences = Array.from(htmlDoc.body.children);
 function App() {
   const savedSentenceIndex = +(localStorage.getItem("sentenceIndex") || 0);
   const [sentenceIndex, setSentenceIndex] = useState(savedSentenceIndex);
-  console.log(sentences[sentenceIndex]);
 
   const handleKeydown = useCallback((event: KeyboardEvent) => {
     if (event.key === "ArrowRight" || event.key === " ") {
