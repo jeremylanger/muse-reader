@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><package xmlns="http://www.idpf.org/2007/opf" xmlns:svg="http://www.w3.org/2000/svg" unique-identifier="a9780575104419" version="2.0">
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+<dc:title>Dune</dc:title>
+<dc:creator opf:file-as="HERBERT, FRANK" opf:role="aut">Frank Herbert</dc:creator>
+<dc:publisher>Orion</dc:publisher>
+<dc:rights>Copyright © 2010 by Frank Herbert</dc:rights>
+<dc:date>2010-12-30</dc:date>
+<dc:subject>Science fiction</dc:subject>
+<dc:description>The most famous, widely acclaimed and popular of all SF novels. The Duke of Atreides has been manoeuvred by his arch-enemy, Baron Harkonnen, into administering the desert planet of Dune. Although it is almost completely without water, Dune is a planet of fabulous wealth, for it is the only source of a drug prized throughout the Galactic Empire. The Duke and his son, Paul, are expecting treachery, and it duly comes - but from a shockingly unexpected place.
+Then Paul succeeds his father, and he becomes a catalyst for the native people of Dune, whose knowledge of the ecology of the planet gives them vast power. They have been waiting for a leader like Paul Atreides, a leader who can harness that force . . .
+DUNE: one of the most brilliantr science fiction novels ever written, as engrossing and heart-rending today as it was when it was first published half a century ago.</dc:description>
+<dc:identifier id="a9780575104419" opf:scheme="ISBN">9780575104419</dc:identifier>
+<dc:language>en-US</dc:language>
+<meta content="cover-image" name="cover"/>
+<meta content="8.99" name="srp-usd"/></metadata>
+<manifest>
+<item href="cover.xml" id="cover" media-type="application/xhtml+xml"/>
+<item href="images/9780575104419.jpg" id="cover-image" media-type="image/jpeg"/>
+<item href="css/stylesheet.css" id="style" media-type="text/css"/>
+<item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+<item href="copyright.html" id="copyright" media-type="application/xhtml+xml"/>
+<item href="toc.html" id="toc" media-type="application/xhtml+xml"/>
+<item href="images/Art_610.jpg" id="aArt_610" media-type="image/jpeg"/>
+<item href="images/Art_49a.jpg" id="aArt_49a" media-type="image/jpeg"/>
+<item href="images/Art_49b.jpg" id="aArt_49b" media-type="image/jpeg"/>
+<item href="images/Art_49c.jpg" id="aArt_49c" media-type="image/jpeg"/>
+<item href="images/Art_49d.jpg" id="aArt_49d" media-type="image/jpeg"/>
+<item href="images/logo1.jpg" id="logo1" media-type="image/jpeg"/>
+<item href="images/logo.jpg" id="logo" media-type="image/jpeg"/>
+<item href="ad-card.html" id="ad-card" media-type="application/xhtml+xml"/>
+<item href="TitlePage.html" id="titlepage" media-type="application/xhtml+xml"/>
+<item href="dedication.html" id="dedication" media-type="application/xhtml+xml"/>
+<item href="chapter000.html" id="chapter000" media-type="application/xhtml+xml"/>
+<item href="chapter000a.html" id="chapter000a" media-type="application/xhtml+xml"/>
+<item href="chapter000b.html" id="chapter000b" media-type="application/xhtml+xml"/>
+<item href="chapter001.html" id="chapter001" media-type="application/xhtml+xml"/>
+<item href="chapter001a.html" id="chapter001a" media-type="application/xhtml+xml"/>
+<item href="chapter001b.html" id="chapter001b" media-type="application/xhtml+xml"/>
+<item href="chapter002.html" id="chapter002" media-type="application/xhtml+xml"/>
+<item href="chapter002a.html" id="chapter002a" media-type="application/xhtml+xml"/>
+<item href="appendix001.html" id="appendix001" media-type="application/xhtml+xml"/>
+<item href="appendix002.html" id="appendix002" media-type="application/xhtml+xml"/>
+<item href="appendix003.html" id="appendix003" media-type="application/xhtml+xml"/>
+<item href="appendix004.html" id="appendix004" media-type="application/xhtml+xml"/>
+<item href="appendix005.html" id="appendix005" media-type="application/xhtml+xml"/>
+<item href="appendix006.html" id="appendix006" media-type="application/xhtml+xml"/>
+<item href="appendix007.html" id="appendix007" media-type="application/xhtml+xml"/>
+<item href="appendix008.html" id="appendix008" media-type="application/xhtml+xml"/>
+<item href="appendix009.html" id="appendix009" media-type="application/xhtml+xml"/>
+</manifest>
+<spine toc="ncx">
+<itemref idref="cover" linear="no"/>
+<itemref idref="ad-card" linear="yes"/>
+<itemref idref="titlepage" linear="yes"/>
+<itemref idref="dedication" linear="yes"/>
+<itemref idref="toc" linear="yes"/>
+<itemref idref="chapter000" linear="yes"/>
+<itemref idref="chapter000a" linear="yes"/>
+<itemref idref="chapter000b" linear="yes"/>
+<itemref idref="chapter001" linear="yes"/>
+<itemref idref="chapter001a" linear="yes"/>
+<itemref idref="chapter001b" linear="yes"/>
+<itemref idref="chapter002" linear="yes"/>
+<itemref idref="chapter002a" linear="yes"/>
+<itemref idref="appendix001" linear="yes"/>
+<itemref idref="appendix002" linear="yes"/>
+<itemref idref="appendix003" linear="yes"/>
+<itemref idref="appendix004" linear="yes"/>
+<itemref idref="appendix005" linear="yes"/>
+<itemref idref="appendix006" linear="yes"/>
+<itemref idref="appendix007" linear="yes"/>
+<itemref idref="appendix008" linear="yes"/>
+<itemref idref="appendix009" linear="yes"/>
+<itemref idref="copyright" linear="yes"/>
+</spine>
+<guide>
+<reference href="copyright.html" title="Copyright" type="copyright"/>
+<reference href="toc.html" title="Table of Contents" type="toc"/>
+<reference href="cover.xml" title="Cover Image" type="cover"/>
+</guide>
+</package>
