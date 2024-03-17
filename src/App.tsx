@@ -3170,12 +3170,7 @@ const xmlData = `
 
 const parser = new DOMParser();
 const htmlDoc = parser.parseFromString(xmlData.replaceAll(/<\?xml (.*)\?>/g, ""), 'text/xml');
-const sentences = Array.from(htmlDoc.body.children).map(x =>
-  x.innerHTML
-    .replaceAll("…", ". . .")
-    .replaceAll(/<em xmlns=["'].*["']>/g, "<em>")
-    .replaceAll(/<a xmlns=["'].*["'] id=["'].*["']><\/a>/g, "")
-);
+const sentences = Array.from(htmlDoc.body.children);
 
 function App() {
   const savedSentenceIndex = +(localStorage.getItem("sentenceIndex") || 0);
@@ -3224,14 +3219,29 @@ function App() {
   const startOfItalicPhrase = (word: string) => word.startsWith("<em>");
   const endOfItalicPhrase = (word: string) => (word.endsWith("</em>") || word.endsWith("</em>,") || word.endsWith("</em>."));
 
+  const getWordsFromElement = (el: Element) => {
+    if (el.nodeName === "p") return formatParagraph(el.innerHTML);
+    if (el.nodeName === "blockquote") {
+      const paragraphs = Array.from(el.children).map((child: Element) => formatParagraph(child.innerHTML));
+      return paragraphs.join("<br> ");
+    }
+
+    return el.innerHTML;
+  };
+
+  const formatParagraph = (paragraph: string) => paragraph
+    .replaceAll("…", ". . .")
+    .replaceAll(/<em xmlns=["'].*["']>/g, "<em>")
+    .replaceAll(/<a xmlns=["'].*["'] id=["'].*["']><\/a>/g, "");
+
   let delay = 0;
   let italicMode = false;
-  const words = sentences[sentenceIndex].split(" ").filter(x => x !== "");
+  const words = getWordsFromElement(sentences[sentenceIndex]).split(" ").filter(x => x !== "");
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
       <div className="flex content-center h-full">
-        <div className="max-w-[800px] m-auto select-none">
+        <div className={`max-w-[800px] m-auto select-none node-${sentences[sentenceIndex].nodeName}`}>
           {words.map((word, i) => {
             let displayedWord = word;
 
