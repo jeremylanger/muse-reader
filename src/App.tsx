@@ -3313,13 +3313,14 @@ function App() {
   const startOfItalicPhrase = (word: string) => word.startsWith("<em>");
   const endOfItalicPhrase = (word: string) => (word.endsWith("</em>") || word.endsWith("</em>,") || word.endsWith("</em>."));
 
-  const getWordsFromElement = (el: Element): string => {
-    if (el.children.length > 0) {
-      const paragraphs = Array.from(el.children).map((child: Element) => getWordsFromElement(child));
+  const getWordsFromElement = (el: Element) => {
+    if (el.nodeName === "p") return formatParagraph(el.innerHTML);
+    if (el.nodeName === "blockquote") {
+      const paragraphs = Array.from(el.children).map((child: Element) => formatParagraph(child.innerHTML));
       return paragraphs.join("<br> ");
     }
 
-    return formatParagraph(el.innerHTML);
+    return el.innerHTML;
   };
 
   const formatParagraph = (paragraph: string) => paragraph
