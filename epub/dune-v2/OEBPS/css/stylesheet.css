@@ -1,0 +1,403 @@
+
+p { display: block;
+ font-size: small;
+ margin-top: 0em;
+ margin-bottom: 0em;
+ margin-left: 0em;
+ margin-right: 0em;
+ text-indent: 20pt;
+ }
+
+.space-break1 {
+margin-top: 1.5em;
+text-indent: 0em;
+}
+
+.space-break {
+margin-top: 1em;
+text-indent: 20pt;
+}
+
+
+blockquote, div.epigraph, div.letter {
+margin-left: 20pt;
+margin-right: 20pt;
+margin-top: 1.5em;
+margin-bottom: 1.5em;
+}
+
+div.note {
+margin-left: 20pt;
+margin-right: 20pt;
+margin-top: 1.5em;
+margin-bottom: 1.5em;
+border: 1pt solid black;
+padding: 3pt;
+}
+
+div.closer, div.dateline {
+margin-top: 1em;
+}
+
+div.dateline p {
+font-family: monospaced;
+text-indent: 0em;
+}
+
+p.signed {
+text-indent: 0pt;
+text-align: right;
+}
+
+.attribution {
+text-align: right;
+text-indent: 0pt;
+}
+
+li {
+font-size: small;
+}
+
+li p {
+text-indent: 0em;
+}
+
+ul, ol {
+margin-top: 1.5em;
+margin-bottom: 1.5em;
+}
+
+ul.no-mark {
+list-style-type: none;
+}
+
+.noindent {
+text-indent: 0em;
+}
+
+.dedication {
+text-indent: 0em;
+margin-top: 15%;
+margin-left: 1em;
+margin-right: 1em;
+}
+
+.p2 {
+text-indent: 0em;
+margin-top: 0em;
+margin-left: 1em;
+margin-right: 1em;
+}
+
+
+
+
+h1 {
+font-size: large;
+margin-top: 2em;
+margin-bottom: 1em;
+}
+
+h2 {
+font-size: medium;
+margin-top: 1.5em;
+margin-bottom: .5em;
+}
+
+h1.chapter-number {
+font-size: x-large;
+margin-top: 10%;
+margin-bottom: 0em;
+text-align: center;
+}
+
+h1.appendix-title {
+font-size: large;
+margin-top: 15%;
+margin-bottom: 0em;
+text-align: center;
+}
+
+h1.chapter-title{
+font-size: large;
+margin-top: 15%;
+margin-bottom: 0em;
+page-break-after: always;
+text-align: center;
+}
+
+
+
+h1.appendix-title1 {
+font-size: large;
+margin-top: 15%;
+margin-bottom: 3em;
+text-align: center;
+}
+
+
+
+h1.appendix-subtitle {
+font-size: large;
+margin-top: 0.2%;
+margin-bottom: 2em;
+text-align: center;
+}
+
+
+h1.acknowledgements-title, h1.preface-title, h1.glossary-title {
+font-size: small;
+margin-top: 10%;
+margin-bottom: 0em;
+text-align: center;
+}
+
+
+h1.toc-title{
+font-size: large;
+margin-top: 15%;
+margin-bottom: 0em;
+text-align: center;
+}
+
+
+
+
+
+.ach {
+font-size: small;
+margin-top: 1.5em;
+margin-bottom: 1em;
+text-align: center;
+}
+
+
+.center1 {
+font-size: small;
+margin-top: 1.5em;
+margin-bottom: 1em;
+text-align: center;
+}
+
+
+.acl {
+font-size: small;
+margin-top: 0em;
+margin-bottom: 0em;
+text-align: center;
+}
+
+
+
+.right {
+font-size: small;
+margin-top: 0em;
+margin-bottom: 0em;
+text-align: right;
+}
+
+
+
+
+
+
+
+
+
+h1.note-title {
+font-weight: bold;
+padding-right: 6pt;
+font-size: small;
+margin-top: 3pt;
+margin-bottom: 3pt;
+}
+
+h1.copyright-title {
+font-size: medium;
+margin-top: 10%;
+margin-bottom: 2em;
+text-align: center;
+font-weight: normal;
+}
+
+.toc-part {
+text-indent: 0em;
+margin-top: 12pt;
+font-weight: bold;
+text-indent: 0em;
+}
+
+.toc-chapter {
+text-indent: 0em;
+margin-top: 6pt;
+}
+
+.toc-preface, .toc-acknowledgements, .toc-glossary, .toc-appendix {
+text-indent: 0em;
+margin-top: 6pt;
+margin-bottom: 6pt;
+}
+
+.toc-h1 {
+text-indent: 0em;
+margin-top: 0em;
+margin-left: 20pt;
+}
+
+.copyright-space {
+text-indent: 0em;
+margin-top: 1em;
+text-align: center;
+font-size: small;
+}
+
+
+.copyright-space1 {
+text-indent: 0em;
+margin-top: 3.5em;
+text-align: center;
+font-size: small;
+}
+
+.copyright-space1a {
+text-indent: 0em;
+margin-top: 3.5em;
+text-align: center;
+font-size: large;
+}
+
+.copyright {
+text-indent: 0em;
+margin-top: 0em;
+font-size: small;
+text-align: center;
+}
+
+
+
+.copyrighta {
+text-indent: 0em;
+margin-top: 1em;
+margin-bottom: 1em;
+font-size: small;
+}
+
+
+.glossentry {
+margin-left: 20pt;
+text-indent: -20pt;
+margin-top: 6pt;
+}
+
+.endnote {
+text-indent: 0em;
+margin-bottom: 1em;
+}
+
+.footnote {
+text-indent: 0em;
+page-break-before: always;
+}
+
+.line {
+text-indent: 0em;
+margin-left: 3em;
+}
+
+
+.linex {
+text-indent: 0em;
+margin-left: 4em;
+}
+
+
+.line1 {
+text-indent: 0em;
+margin-left: 5em;
+}
+
+
+span.underline {
+text-decoration: underline;
+}
+
+div.ingredients {
+margin-top: 1em;
+margin-bottom: 1em;
+}
+
+div.headnote {
+margin-top: 1em;
+margin-bottom: 1em;
+}
+
+p.yield {
+text-indent: 0em;
+font-style: italic;
+text-align: right;
+}
+
+div.procedure {
+margin-top: 1em;
+margin-bottom: 1em;
+}
+
+div.step {
+}
+
+h1.recipe-title {
+font-size: medium;
+font-weight: bold;
+text-align: left;
+margin-top: 2em;
+margin-bottom: 1em;
+}
+
+p.ingredient {
+text-indent: 0pt;
+}
+
+p.step {
+text-indent: 0pt;
+}
+
+
+.small-caps
+{
+font-size: x-small;
+}
+
+.drop-caps
+{
+font-size: x-large;
+}
+
+    
+.img {
+font-size: small;
+margin-top: 1.5em;
+margin-bottom: 1em;
+text-align: center;
+}
+
+
+img.mid {
+vertical-align: middle;
+margin-bottom:.3em;
+}
+
+.title{
+font-size: x-large;
+margin-top: 2em;
+margin-bottom: 1em;
+text-align: center;
+font-family: sans-serif;
+}
+	
+.author{
+font-size: medium;
+margin-top: 1.5em;
+margin-bottom: 20%;
+text-align: center;	
+font-family: sans-serif;
+	}
