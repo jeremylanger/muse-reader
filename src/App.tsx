@@ -3217,7 +3217,7 @@ const openFile = async (url: string): Promise<Blob> => {
 };
 
 const getRootFilePathFromContainerFile = async (): Promise<string | undefined> => {
-  const blob = await openFile("/assets/dune-v2/META-INF/container.xml");
+  const blob = await openFile("epub/dune-v2/META-INF/container.xml");
   try {
     const result = await readFile(blob);
     return getFullPath(result);
@@ -3227,7 +3227,7 @@ const getRootFilePathFromContainerFile = async (): Promise<string | undefined> =
 };
 
 const getManifestFromRootFile = async (rootFilePath: string): Promise<HTMLCollection | undefined> => {
-  const blob = await openFile(`/assets/dune-v2/${rootFilePath}`);
+  const blob = await openFile(`epub/dune-v2/${rootFilePath}`);
   try {
     const result = await readFile(blob);
     const rootFile = parseAsXml(result);
