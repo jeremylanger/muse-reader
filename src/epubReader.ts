@@ -73,7 +73,6 @@ const getManifestFromRootFile = async (rootFilePath: string): Promise<HTMLCollec
 
 export const openDuneEpub = async () => {
   const rootFilePath = await getRootFilePathFromContainerFile();
-  console.log({ rootFilePath });
   if (!rootFilePath) {
     console.error("No root file path found");
     return;
@@ -97,5 +96,6 @@ export const openDuneEpub = async () => {
 	const chapterTexts = await Promise.all(chapterTextPromises);
 
 	const chapterSentences = chapterTexts.map(text => Array.from(parseAsXml(text).body.children));
-	console.log(chapterSentences);
+
+	return chapterSentences;
 };
