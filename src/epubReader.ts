@@ -90,5 +90,12 @@ export const openDuneEpub = async () => {
     .map((el: Element) => el.getAttribute("href"));
   const chapterDirectory = rootFilePath.split('/').slice(0, -1).join('/');
   const chapterPaths = chapterFilenames.map(filename => `${chapterDirectory}/${filename}`);
-  console.log(chapterPaths);
+
+	const chapterPromises = chapterPaths.map(path => openFile(`epub/dune-v2/${path}`));
+	const chapters = await Promise.all(chapterPromises);
+	const chapterTextPromises = chapters.map(readFile);
+	const chapterTexts = await Promise.all(chapterTextPromises);
+
+	const chapterSentences = chapterTexts.map(text => Array.from(parseAsXml(text).body.children));
+	console.log(chapterSentences);
 };
