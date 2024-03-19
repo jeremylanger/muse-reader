@@ -9,12 +9,15 @@ function App() {
   const savedSentenceIndex = +(localStorage.getItem("sentenceIndex") || 0);
   const [sentenceIndex, setSentenceIndex] = useState(savedSentenceIndex);
 
+  const goBack = () => setSentenceIndex(curr => Math.max(0, curr - 1));
+  const goForward = () => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1));
+
   const handleKeydown = useCallback((event: KeyboardEvent) => {
     if (event.key === "ArrowRight" || event.key === " ") {
-      setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1));
+      goForward();
     }
     if (event.key === "ArrowLeft") {
-      setSentenceIndex(curr => Math.max(0, curr - 1));
+      goBack();
     }
   }, []);
 
@@ -90,8 +93,15 @@ function App() {
           })}
         </div>
       </div>
+
+      <div className="sm:hidden fixed left-0 top-0 bottom-0 flex flex-wrap content-center">
+        <button className="text-5xl ml-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goBack}>&lsaquo;</button>
+      </div>
+      <div className="sm:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
+        <button className="text-5xl mr-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
+      </div>
       
-      <div className="group fixed bottom-0 left-0 right-0 h-2 hover:h-4 transition-all">
+      <div className="group fixed bottom-0 left-0 right-0 h-2 hover:h-4 z-10 transition-all">
         <input type="range" className="block appearance-none w-full h-full bg-[rgba(255,255,255,0.25)] rounded-md outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:w-2 group-hover:[&::-webkit-slider-thumb]:h-4 group-hover:[&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[rgba(255,255,255,0.5)] cursor-pointer" max={sentences.length} value={sentenceIndex} onChange={handleRangeChange} />
       </div>
     </div>
