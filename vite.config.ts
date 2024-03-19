@@ -7,5 +7,6 @@ export default defineConfig({
   base: "/dune/",
   build: {
     outDir: 'build',
+    target: "ES2022",
   },
 })

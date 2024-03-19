@@ -3,10 +3,7 @@ import { NextWord } from "./NextWord";
 import { openDuneEpub } from "./epubReader";
 
 const chapters = await openDuneEpub();
-console.log(chapters);
-const sentences = chapters?.[8] ?? [];
-const sentencesInAllChapters = chapters?.reduce((acc, curr) => acc + curr.length, 0) ?? 0;
-console.log({ sentencesInAllChapters });
+const sentences = chapters?.flat() ?? [];
 
 function App() {
   const savedSentenceIndex = +(localStorage.getItem("sentenceIndex") || 0);
@@ -20,6 +17,8 @@ function App() {
       setSentenceIndex(curr => Math.max(0, curr - 1));
     }
   }, []);
+
+  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => setSentenceIndex(+event.target.value);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
@@ -91,8 +90,9 @@ function App() {
           })}
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 h-1">
-        <div className="h-full bg-white opacity-50 transition-all rounded" style={{ width: `${(sentenceIndex / (sentences.length - 1)) * 100}%` }} />
+      
+      <div className="group fixed bottom-0 left-0 right-0 h-2 hover:h-4 transition-all">
+        <input type="range" className="block appearance-none w-full h-full bg-[rgba(255,255,255,0.25)] rounded-md outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:w-2 group-hover:[&::-webkit-slider-thumb]:h-4 group-hover:[&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[rgba(255,255,255,0.5)] cursor-pointer" max={sentences.length} value={sentenceIndex} onChange={handleRangeChange} />
       </div>
     </div>
   );
