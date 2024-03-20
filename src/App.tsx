@@ -44,7 +44,7 @@ function App() {
   const calculateDelay = (word: string) => {
     const basePause = 150;
     const wordLengthPause = word.length * 40;
-    const commaPause = word.endsWith(",") ? 200 : 0;
+    const commaPause = word.endsWith(",") || word.endsWith("–") || word.endsWith(":") ? 200 : 0;
     const endOfSentencePause = word.endsWith(";")
       || word.endsWith(".")
       || word.endsWith('."')
