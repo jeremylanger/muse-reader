@@ -7,6 +7,11 @@ console.log({ chapters });
 const sentences = chapters?.flat() ?? [];
 
 function App() {
+  const [readingSpeed, setReadingSpeed] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const s = parseFloat(params.get('s') || '1');
+    return Math.max(0.2, s);
+  });
   const [sentenceIndex, setSentenceIndex] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const p = parseInt(params.get('p') || '0');
@@ -17,16 +22,29 @@ function App() {
   const goBack = () => setSentenceIndex(curr => Math.max(0, curr - 1));
   const goForward = () => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1));
 
+  const increaseReadingSpeed = () => setReadingSpeed(curr => curr + 0.2);
+  const decreaseReadingSpeed = () => setReadingSpeed(curr => Math.max(0.2, curr - 0.2));
+
   const handleKeydown = useCallback((event: KeyboardEvent) => {
-    if (event.key === "ArrowRight" || event.key === " ") {
-      goForward();
-    }
-    if (event.key === "ArrowLeft") {
-      goBack();
-    }
+    if (event.key === "ArrowRight" || event.key === " ") goForward();
+    if (event.key === "ArrowLeft") goBack();
+    if (event.key === "ArrowUp") increaseReadingSpeed();
+    if (event.key === "ArrowDown") decreaseReadingSpeed();
   }, []);
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => setSentenceIndex(+event.target.value);
+
+  const saveSentenceIndex = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('p', sentenceIndex.toString());
+    window.history.pushState({}, '', `?${params.toString()}`);
+  }, [sentenceIndex]);
+
+  const saveReadingSpeed = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('s', readingSpeed.toFixed(1));
+    window.history.pushState({}, '', `?${params.toString()}`);
+  }, [readingSpeed]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
@@ -35,11 +53,12 @@ function App() {
   }, [handleKeydown]);
 
   useEffect(() => {
-    // Save our spot in the url
-    const params = new URLSearchParams();
-    params.append('p', sentenceIndex.toString());
-    window.history.pushState({}, '', `?${params.toString()}`);
-  }, [sentenceIndex]);
+    saveSentenceIndex();
+  }, [sentenceIndex, saveSentenceIndex]);
+
+  useEffect(() => {
+    saveReadingSpeed();
+  }, [readingSpeed, saveReadingSpeed]);
 
   const calculateDelay = (word: string) => {
     const basePause = 150;
@@ -58,7 +77,7 @@ function App() {
       ? 350 : 0;
     const ellipsisPause = word.endsWith("…") ? 1000 : 0;
 
-    return basePause + wordLengthPause + commaPause + endOfSentencePause + ellipsisPause;
+    return (basePause + wordLengthPause + commaPause + endOfSentencePause + ellipsisPause) / readingSpeed;
   };
 
   const startOfItalicPhrase = (word: string) => word.startsWith("<em>");
@@ -86,6 +105,7 @@ function App() {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
       <div className="flex content-center h-full">
+        <div className="absolute top-0 left-0 right-0 text-lg">Reading speed: {readingSpeed.toFixed(1)}</div>
         <div className={`max-w-[800px] m-auto select-none node-${sentences[sentenceIndex].nodeName}`}>
           {words.map((word, i) => {
             let displayedWord = word;
