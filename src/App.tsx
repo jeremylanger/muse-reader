@@ -18,33 +18,50 @@ function App() {
     // Keep it between the first and last page
     return Math.min(sentences.length - 1, Math.max(0, p));
   });
+  const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
-  const goBack = () => setSentenceIndex(curr => Math.max(0, curr - 1));
-  const goForward = () => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1));
+  const goBack = useCallback(() => setSentenceIndex(curr => Math.max(0, curr - 1)), []);
+  const goForward = useCallback(() => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1)), []);
 
-  const increaseReadingSpeed = () => setReadingSpeed(curr => curr + 0.2);
-  const decreaseReadingSpeed = () => setReadingSpeed(curr => Math.max(0.2, curr - 0.2));
+  const displayMessage = (message: string) => {
+    setShowMessage(true);
+    setMessage(message);
+    setTimeout(() => {
+      setShowMessage(false);
+      setMessage("");
+    }, 2000);
+  };
+
+  const increaseReadingSpeed = useCallback(() => {
+    setReadingSpeed(curr => {
+      const newValue = curr + 0.2;
+      displayMessage(`Reading speed: ${newValue.toFixed(1)}`);
+      return newValue;
+    });
+  }, []);
+  const decreaseReadingSpeed = useCallback(() => {
+    setReadingSpeed(curr => {
+      const newValue = Math.max(0.2, curr - 0.2);
+      displayMessage(`Reading speed: ${newValue.toFixed(1)}`);
+      return newValue;
+    });
+  }, []);
 
   const handleKeydown = useCallback((event: KeyboardEvent) => {
     if (event.key === "ArrowRight" || event.key === " ") goForward();
     if (event.key === "ArrowLeft") goBack();
     if (event.key === "ArrowUp") increaseReadingSpeed();
     if (event.key === "ArrowDown") decreaseReadingSpeed();
-  }, []);
+  }, [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward]);
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => setSentenceIndex(+event.target.value);
 
-  const saveSentenceIndex = useCallback(() => {
+  const saveUrlParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
-    params.set('p', sentenceIndex.toString());
+    params.set(key, value);
     window.history.pushState({}, '', `?${params.toString()}`);
-  }, [sentenceIndex]);
-
-  const saveReadingSpeed = useCallback(() => {
-    const params = new URLSearchParams(window.location.search);
-    params.set('s', readingSpeed.toFixed(1));
-    window.history.pushState({}, '', `?${params.toString()}`);
-  }, [readingSpeed]);
+  }, []);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
@@ -53,12 +70,12 @@ function App() {
   }, [handleKeydown]);
 
   useEffect(() => {
-    saveSentenceIndex();
-  }, [sentenceIndex, saveSentenceIndex]);
+    saveUrlParam("p", sentenceIndex.toString());
+  }, [sentenceIndex, saveUrlParam]);
 
   useEffect(() => {
-    saveReadingSpeed();
-  }, [readingSpeed, saveReadingSpeed]);
+    saveUrlParam("s", readingSpeed.toFixed(1));
+  }, [readingSpeed, saveUrlParam]);
 
   const calculateDelay = (word: string) => {
     const basePause = 150;
@@ -105,7 +122,7 @@ function App() {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
       <div className="flex content-center h-full">
-        <div className="absolute top-0 left-0 right-0 text-lg">Reading speed: {readingSpeed.toFixed(1)}</div>
+        <div className={`${showMessage ? "opacity-100" : "opacity-0"} transition-opacity duration-1000 absolute top-0 left-0 right-0 text-lg`}>{message}</div>
         <div className={`max-w-[800px] m-auto select-none node-${sentences[sentenceIndex].nodeName}`}>
           {words.map((word, i) => {
             let displayedWord = word;
