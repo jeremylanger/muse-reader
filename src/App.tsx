@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { NextWord } from "./NextWord";
-import { openDuneEpub } from "./epubReader";
+import { openDuneEpub } from "./epubParser";
+import { Reader } from "./reader";
 import { Message } from "./Message";
 
 const chapters = await openDuneEpub();
@@ -68,47 +69,9 @@ function App() {
     saveUrlParam("s", readingSpeed.toFixed(1));
   }, [readingSpeed, saveUrlParam]);
 
-  const calculateDelay = (word: string) => {
-    const basePause = 150;
-    const wordLengthPause = word.length * 40;
-    const commaPause = word.endsWith(",") || word.endsWith("–") || word.endsWith(":") ? 200 : 0;
-    const endOfSentencePause = word.endsWith(";")
-      || word.endsWith(".")
-      || word.endsWith('."')
-      || word.endsWith('.’')
-      || word.endsWith('!')
-      || word.endsWith('!"')
-      || word.endsWith('!’')
-      || word.endsWith('?')
-      || word.endsWith('?"')
-      || word.endsWith('?’')
-      ? 350 : 0;
-    const ellipsisPause = word.endsWith("…") ? 1000 : 0;
-
-    return (basePause + wordLengthPause + commaPause + endOfSentencePause + ellipsisPause) / readingSpeed;
-  };
-
-  const startOfItalicPhrase = (word: string) => word.startsWith("<em>");
-  const endOfItalicPhrase = (word: string) => (word.endsWith("</em>") || word.endsWith("</em>,") || word.endsWith("</em>."));
-
-  const getWordsFromElement = (el: Element): string => {
-    if (el.nodeName === "p") return formatParagraph(el.innerHTML);
-    if (el.nodeName === "blockquote") {
-      const paragraphs = Array.from(el.children).map((child: Element) => formatParagraph(child.innerHTML));
-      return paragraphs.join("<br> ");
-    }
-
-    return el.innerHTML;
-  };
-
-  const formatParagraph = (paragraph: string) => paragraph
-    .replaceAll("…", ". . .")
-    .replaceAll(/<em xmlns=["'].*["']>/g, "<em>")
-    .replaceAll(/<a xmlns=["'].*["'] id=["'].*["']><\/a>/g, "");
-
   let delay = 0;
   let italicMode = false;
-  const words = getWordsFromElement(sentences[sentenceIndex]).split(" ").filter(x => x !== "");
+  const words = Reader.getWordsFromElement(sentences[sentenceIndex]).split(" ").filter(x => x !== "");
 
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
@@ -118,12 +81,12 @@ function App() {
           {words.map((word, i) => {
             let displayedWord = word;
 
-            if (startOfItalicPhrase(word)) italicMode = true;
+            if (Reader.startOfItalicPhrase(word)) italicMode = true;
             if (italicMode) displayedWord = `<em>${word}</em>`;
-            if (endOfItalicPhrase(word)) italicMode = false;
+            if (Reader.endOfItalicPhrase(word)) italicMode = false;
 
             const prevWord = i === 0 ? "" : words[i - 1];
-            delay += calculateDelay(prevWord);
+            delay += Reader.calculateDelay(prevWord, readingSpeed);
 
             return <NextWord key={`${sentenceIndex}-${i}-${word}`} delay={delay} word={displayedWord} />;
           })}
