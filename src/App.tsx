@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { NextWord } from "./NextWord";
 import { openDuneEpub } from "./epubReader";
+import { Message } from "./Message";
 
 const chapters = await openDuneEpub();
 console.log({ chapters });
@@ -19,31 +20,21 @@ function App() {
     return Math.min(sentences.length - 1, Math.max(0, p));
   });
   const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
 
   const goBack = useCallback(() => setSentenceIndex(curr => Math.max(0, curr - 1)), []);
   const goForward = useCallback(() => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1)), []);
 
-  const displayMessage = (message: string) => {
-    setShowMessage(true);
-    setMessage(message);
-    setTimeout(() => {
-      setShowMessage(false);
-      setMessage("");
-    }, 2000);
-  };
-
   const increaseReadingSpeed = useCallback(() => {
     setReadingSpeed(curr => {
       const newValue = curr + 0.2;
-      displayMessage(`Reading speed: ${newValue.toFixed(1)}`);
+      setMessage(`Reading speed: ${newValue.toFixed(1)}`);
       return newValue;
     });
   }, []);
   const decreaseReadingSpeed = useCallback(() => {
     setReadingSpeed(curr => {
       const newValue = Math.max(0.2, curr - 0.2);
-      displayMessage(`Reading speed: ${newValue.toFixed(1)}`);
+      setMessage(`Reading speed: ${newValue.toFixed(1)}`);
       return newValue;
     });
   }, []);
@@ -122,7 +113,7 @@ function App() {
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
       <div className="flex content-center h-full">
-        <div className={`${showMessage ? "opacity-100" : "opacity-0"} transition-opacity duration-1000 absolute top-0 left-0 right-0 text-lg`}>{message}</div>
+        <Message message={message} setMessage={setMessage} />
         <div className={`max-w-[800px] m-auto select-none node-${sentences[sentenceIndex].nodeName}`}>
           {words.map((word, i) => {
             let displayedWord = word;
