@@ -22,18 +22,14 @@ export class Reader {
 	static startOfItalicPhrase = (word: string) => word.startsWith("<em>");
 	static endOfItalicPhrase = (word: string) => (word.endsWith("</em>") || word.endsWith("</em>,") || word.endsWith("</em>."));
 
-	static formatParagraph = (paragraph: string) => paragraph
-		.replaceAll("…", ". . .")
-		.replaceAll(/<em xmlns=["'].*["']>/g, "<em>")
-		.replaceAll(/<a xmlns=["'].*["'] id=["'].*["']><\/a>/g, "");
-
 	static getWordsFromElement = (el: Element): string => {
-		if (el.nodeName === "p") return this.formatParagraph(el.innerHTML);
-		if (el.nodeName === "blockquote") {
-			const paragraphs = Array.from(el.children).map((child: Element) => this.formatParagraph(child.innerHTML));
-			return paragraphs.join("<br> ");
+		let content = "";
+
+		for (const child of el.childNodes) {
+			if (child.nodeType === Node.TEXT_NODE) content += child.textContent as string;
+			if (child.nodeType === Node.ELEMENT_NODE) content += ` <${child.nodeName}>${this.getWordsFromElement(child as Element)}</${child.nodeName}>`;
 		}
 
-		return el.innerHTML;
+		return content.trim();
 	};
 }
