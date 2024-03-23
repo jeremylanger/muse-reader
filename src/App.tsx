@@ -3,6 +3,7 @@ import { NextWord } from "./NextWord";
 import { openDuneEpub } from "./epubParser";
 import { Reader } from "./reader";
 import { Message } from "./Message";
+import { Range } from "./Range";
 
 const chapters = await openDuneEpub();
 console.log({ chapters });
@@ -46,8 +47,6 @@ function App() {
     if (event.key === "ArrowUp") increaseReadingSpeed();
     if (event.key === "ArrowDown") decreaseReadingSpeed();
   }, [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward]);
-
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => setSentenceIndex(+event.target.value);
 
   const saveUrlParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -100,12 +99,7 @@ function App() {
         <button className="text-5xl mr-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
       </div>
       
-      <div className="group fixed bottom-0 left-0 right-0 h-2 hover:h-4 z-10 transition-all">
-        <input type="range" className="peer block appearance-none w-full h-full bg-[rgba(255,255,255,0.25)] rounded-md outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:w-2 group-hover:[&::-webkit-slider-thumb]:h-4 group-hover:[&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[rgba(255,255,255,0.5)] cursor-pointer" max={sentences.length - 1} value={sentenceIndex} onChange={handleRangeChange} />
-        <div className="hidden peer-hover:block peer-active:block text-base absolute bottom-4">
-          <span className="inline-block" style={{ marginLeft: `${(sentenceIndex/sentences.length)*100}vw` }}>{sentenceIndex}</span>
-        </div>
-      </div>
+      <Range sentenceIndex={sentenceIndex} sentencesLength={sentences.length} setSentenceIndex={setSentenceIndex} />
     </div>
   );
 }
