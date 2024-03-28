@@ -73,8 +73,8 @@ function App() {
   const words = Reader.getWordsFromElement(sentences[sentenceIndex]).split(" ").filter(x => x !== "");
 
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
-      <div className="flex content-center h-full">
+    <div className="fixed top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
+      <div className="flex content-center h-full overflow-auto">
         <Message message={message} setMessage={setMessage} />
         <div className={`max-w-[800px] m-auto select-none node-${sentences[sentenceIndex].nodeName}`}>
           {words.map((word, i) => {

@@ -26,7 +26,7 @@ export class Reader {
 		let content = "";
 
 		for (const child of el.childNodes) {
-			if (child.nodeType === Node.TEXT_NODE) content += child.textContent as string;
+			if (child.nodeType === Node.TEXT_NODE) content += child.textContent?.replaceAll("…", ". . .");
 			if (child.nodeType === Node.ELEMENT_NODE) content += ` <${child.nodeName}>${this.getWordsFromElement(child as Element)}</${child.nodeName}>`;
 		}
 
