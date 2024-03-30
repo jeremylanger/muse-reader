@@ -1,3 +1,5 @@
+import { SearchResult } from "./types";
+
 export class Reader {
 	static calculateDelay = (word: string, readingSpeed: number) => {
 		const basePause = 150;
@@ -32,4 +34,36 @@ export class Reader {
 
 		return content.trim();
 	};
+
+	static cleanText = (text?: string | null): string | undefined => text
+		?.replaceAll(/[.,:;!?‘’“”–—()[\]{}<>«»„]/g, "")
+		.replaceAll(/\s+/g, " ");
+
+	// Could clean entire book first on load, store it, and then search would be faster
+	static search = (elements: Element[], needle: string): SearchResult[] => {
+		const results: SearchResult[] = [];
+
+		needle = this.cleanText(needle)?.toLowerCase() || "";
+		if (needle.length < 3) return results;
+
+		for (let i = 0; i < elements.length; i++) {
+			const el = elements[i];
+			const text = this.cleanText(el.textContent)?.toLowerCase();
+			const start = text?.indexOf(needle) ?? -1;
+			if (start !== -1) {
+				const end = start + needle.length - 1;
+
+				results.push({
+					sentenceIndex: i,
+					start,
+					end,
+					el,
+				});
+
+				if (results.length === 5) break;
+			}
+		}
+
+		return results;
+	}
 }

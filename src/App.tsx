@@ -4,6 +4,7 @@ import { openDuneEpub } from "./epubParser";
 import { Reader } from "./reader";
 import { Message } from "./Message";
 import { Range } from "./Range";
+import { Search } from "./Search";
 
 const chapters = await openDuneEpub();
 console.log({ chapters });
@@ -22,6 +23,7 @@ function App() {
     return Math.min(sentences.length - 1, Math.max(0, p));
   });
   const [message, setMessage] = useState("");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const goBack = useCallback(() => setSentenceIndex(curr => Math.max(0, curr - 1)), []);
   const goForward = useCallback(() => setSentenceIndex(curr => Math.min(sentences.length - 1, curr + 1)), []);
@@ -42,11 +44,17 @@ function App() {
   }, []);
 
   const handleKeydown = useCallback((event: KeyboardEvent) => {
+    if (event.code === 'KeyS' && event.metaKey) {
+      event.preventDefault();
+      setIsSearchVisible(curr => !curr);
+      return;
+    }
+    if (isSearchVisible) return;
     if (event.key === "ArrowRight" || event.key === " ") goForward();
     if (event.key === "ArrowLeft") goBack();
     if (event.key === "ArrowUp") increaseReadingSpeed();
     if (event.key === "ArrowDown") decreaseReadingSpeed();
-  }, [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward]);
+  }, [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward, isSearchVisible]);
 
   const saveUrlParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -98,6 +106,8 @@ function App() {
       <div className="lg:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
         <button className="text-5xl mr-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
       </div>
+
+      <Search isVisible={isSearchVisible} setIsSearchVisible={setIsSearchVisible} sentences={sentences} setSentenceIndex={setSentenceIndex} />
       
       <Range sentenceIndex={sentenceIndex} sentencesLength={sentences.length} setSentenceIndex={setSentenceIndex} />
     </div>
