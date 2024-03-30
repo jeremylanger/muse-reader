@@ -15,7 +15,7 @@ export const NextWord = ({ delay, word }: Props) => {
 	}, [delay]);
 
 	return <>
-		<span className={`${fadeIn ? "opacity-100" : "opacity-0"} duration-500 mr-3 transition-opacity inline-block`} dangerouslySetInnerHTML={{__html: word}} />
+		<span className={`${fadeIn ? "opacity-100" : "opacity-0"} duration-500 mr-2 sm:mr-3 transition-opacity inline-block`} dangerouslySetInnerHTML={{__html: word}} />
 		{word.endsWith("<br>") && <br />}
 	</>;
 }

@@ -92,10 +92,10 @@ function App() {
         </div>
       </div>
 
-      <div className="sm:hidden fixed left-0 top-0 bottom-0 flex flex-wrap content-center">
+      <div className="lg:hidden fixed left-0 top-0 bottom-0 flex flex-wrap content-center">
         <button className="text-5xl ml-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goBack}>&lsaquo;</button>
       </div>
-      <div className="sm:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
+      <div className="lg:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
         <button className="text-5xl mr-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
       </div>
       
