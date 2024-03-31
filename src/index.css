@@ -11,3 +11,7 @@ body {
 	@apply border-l-4 border-white text-left pl-8 py-4;
 	box-shadow: -10px 10px 10px 0px rgba(0, 0, 0, 0.25);
 }
+
+mark {
+	text-shadow: none;
+}

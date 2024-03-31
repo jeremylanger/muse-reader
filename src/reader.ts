@@ -36,7 +36,8 @@ export class Reader {
 	};
 
 	static cleanText = (text?: string | null): string | undefined => text
-		?.replaceAll(/[.,:;!?‘’“”–—()[\]{}<>«»„]/g, "")
+		?.replaceAll(/[‘’]/g, "'")
+		.replaceAll(/[“”]/g, '"')
 		.replaceAll(/\s+/g, " ");
 
 	// Could clean entire book first on load, store it, and then search would be faster
@@ -57,7 +58,7 @@ export class Reader {
 					sentenceIndex: i,
 					start,
 					end,
-					el,
+					matchedText: text,
 				});
 
 				if (results.length === 5) break;
