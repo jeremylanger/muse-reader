@@ -4,3 +4,8 @@ export interface SearchResult {
 	end: number;
 	matchedText?: string;
 }
+
+export interface Definition {
+	partOfSpeech: string;
+	definitions: string;
+}
