@@ -15,3 +15,7 @@ body {
 mark {
 	text-shadow: none;
 }
+
+.node-h1 {
+	@apply text-8xl;
+}
