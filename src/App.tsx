@@ -13,12 +13,12 @@ const sentences = chapters?.flat() ?? [];
 function App() {
   const [readingSpeed, setReadingSpeed] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const s = parseFloat(params.get('s') || '1');
+    const s = parseFloat(params.get('s') ?? '1');
     return Math.max(0.2, s);
   });
   const [sentenceIndex, setSentenceIndex] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const p = parseInt(params.get('p') || '0');
+    const p = parseInt(params.get('p') ?? '0');
     // Keep it between the first and last page
     return Math.min(sentences.length - 1, Math.max(0, p));
   });

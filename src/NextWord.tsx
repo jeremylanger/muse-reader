@@ -7,6 +7,25 @@ interface Props {
 	word: string;
 }
 
+interface FreeDictionaryApiResponse {
+	word: string;
+	phonetic: string;
+	phonetics: {
+		text: string;
+		audio?: string;
+	}[];
+	origin: string;
+	meanings: {
+		partOfSpeech: string;
+		definitions: {
+			definition: string;
+			example: string;
+			synonyms: string[];
+			antonyms: string[];
+		}[];
+	}[];
+}
+
 export const NextWord = ({ delay, word }: Props) => {
 	const [fadeIn, setFadeIn] = useState(false);
 	const [definitions, setDefinitions] = useState<Definition[] | undefined>();
@@ -20,10 +39,11 @@ export const NextWord = ({ delay, word }: Props) => {
 			}
 		})
 			.then(response => response.json())
-			.then(data => {
+			.then((data: FreeDictionaryApiResponse[]) => {
+				console.log(data);
 				// TODO: add typing for this
 				const meanings = data[0].meanings;
-				const definitions: Definition[] = meanings.map((meaning: any) => {
+				const definitions: Definition[] = meanings.map(meaning => {
 					const partOfSpeech = meaning.partOfSpeech;
 					const definitions = meaning.definitions[0].definition;
 
