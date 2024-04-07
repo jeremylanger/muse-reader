@@ -1,6 +1,7 @@
 const parser = new DOMParser();
 
-const parseAsXml = (data: string): Document => parser.parseFromString(data.replaceAll(/<\?xml (.*)\?>/g, ""), 'text/xml');
+const parseAsXml = (data: string): Document =>
+  parser.parseFromString(data.replaceAll(/<\?xml (.*)\?>/g, ""), "text/xml");
 
 const getFullPath = (data: string): string => {
   const container = parseAsXml(data);
@@ -11,12 +12,12 @@ const getFullPath = (data: string): string => {
   }
 
   return fullPath;
-}
+};
 
 const readFile = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       const result = e?.target?.result as string;
       if (!result) {
         console.log("File is empty");
@@ -24,7 +25,7 @@ const readFile = (blob: Blob): Promise<string> => {
         return;
       }
       resolve(result);
-    }
+    };
     reader.onerror = reject;
     reader.readAsText(blob);
   });
@@ -87,15 +88,15 @@ export const openDuneEpub = async () => {
   const chapterFilenames = Array.from(manifest)
     .filter((el: Element) => el.getAttribute("media-type") === "application/xhtml+xml")
     .map((el: Element) => el.getAttribute("href"));
-  const chapterDirectory = rootFilePath.split('/').slice(0, -1).join('/');
+  const chapterDirectory = rootFilePath.split("/").slice(0, -1).join("/");
   const chapterPaths = chapterFilenames.map(filename => `${chapterDirectory}/${filename}`);
 
-	const chapterPromises = chapterPaths.map(path => openFile(`epub/dune-v2/${path}`));
-	const chapters = await Promise.all(chapterPromises);
-	const chapterTextPromises = chapters.map(readFile);
-	const chapterTexts = await Promise.all(chapterTextPromises);
+  const chapterPromises = chapterPaths.map(path => openFile(`epub/dune-v2/${path}`));
+  const chapters = await Promise.all(chapterPromises);
+  const chapterTextPromises = chapters.map(readFile);
+  const chapterTexts = await Promise.all(chapterTextPromises);
 
-	const chapterSentences = chapterTexts.map(text => Array.from(parseAsXml(text).body.children));
+  const chapterSentences = chapterTexts.map(text => Array.from(parseAsXml(text).body.children));
 
-	return chapterSentences;
+  return chapterSentences;
 };

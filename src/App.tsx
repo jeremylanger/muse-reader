@@ -14,12 +14,12 @@ const sentences = chapters?.flat() ?? [];
 function App() {
   const [readingSpeed, setReadingSpeed] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const s = parseFloat(params.get('s') ?? '1');
+    const s = parseFloat(params.get("s") ?? "1");
     return Math.max(0.2, s);
   });
   const [sentenceIndex, setSentenceIndex] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const p = parseInt(params.get('p') ?? '0');
+    const p = parseInt(params.get("p") ?? "0");
     // Keep it between the first and last page
     return Math.min(sentences.length - 1, Math.max(0, p));
   });
@@ -46,23 +46,26 @@ function App() {
 
   const toggleSearch = useCallback(() => setIsSearchVisible(curr => !curr), []);
 
-  const handleKeydown = useCallback((event: KeyboardEvent) => {
-    if (event.code === 'KeyS' && event.metaKey) {
-      event.preventDefault();
-      setIsSearchVisible(curr => !curr);
-      return;
-    }
-    if (isSearchVisible) return;
-    if (event.key === "ArrowRight" || event.key === " ") goForward();
-    if (event.key === "ArrowLeft") goBack();
-    if (event.key === "ArrowUp") increaseReadingSpeed();
-    if (event.key === "ArrowDown") decreaseReadingSpeed();
-  }, [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward, isSearchVisible]);
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.code === "KeyS" && event.metaKey) {
+        event.preventDefault();
+        setIsSearchVisible(curr => !curr);
+        return;
+      }
+      if (isSearchVisible) return;
+      if (event.key === "ArrowRight" || event.key === " ") goForward();
+      if (event.key === "ArrowLeft") goBack();
+      if (event.key === "ArrowUp") increaseReadingSpeed();
+      if (event.key === "ArrowDown") decreaseReadingSpeed();
+    },
+    [decreaseReadingSpeed, increaseReadingSpeed, goBack, goForward, isSearchVisible],
+  );
 
   const saveUrlParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
     params.set(key, value);
-    window.history.pushState({}, '', `?${params.toString()}`);
+    window.history.pushState({}, "", `?${params.toString()}`);
   }, []);
 
   useEffect(() => {
@@ -80,35 +83,63 @@ function App() {
   }, [readingSpeed, saveUrlParam]);
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
-      <div className="flex justify-center -mt-3 opacity-30 hover:opacity-100 transition-all">
-        <div className="text-neutral-900 text-base h-8 bg-white bg-opacity-50 no-text-shadow rounded cursor-default">
-          <button className="bg-white bg-opacity-50 h-8 w-8 rounded cursor-pointer hover:bg-opacity-100 transition-all" onClick={decreaseReadingSpeed}>-</button>
+    <div className="fixed bottom-0 left-0 right-0 top-0 bg-[url('/dune-wallpaper.jpg')] bg-cover bg-center p-8 text-center font-dm-serif text-2xl leading-normal text-white sm:text-5xl sm:leading-tight">
+      <div className="-mt-3 flex justify-center opacity-30 transition-all hover:opacity-100">
+        <div className="no-text-shadow h-8 cursor-default rounded bg-white bg-opacity-50 text-base text-neutral-900">
+          <button
+            className="h-8 w-8 cursor-pointer rounded bg-white bg-opacity-50 transition-all hover:bg-opacity-100"
+            onClick={decreaseReadingSpeed}
+          >
+            -
+          </button>
           <span className="inline-block px-4 text-sm">Reading Speed</span>
-          <button className="bg-white bg-opacity-50 h-8 w-8 rounded cursor-pointer hover:bg-opacity-100 transition-all" onClick={increaseReadingSpeed}>+</button>
+          <button
+            className="h-8 w-8 cursor-pointer rounded bg-white bg-opacity-50 transition-all hover:bg-opacity-100"
+            onClick={increaseReadingSpeed}
+          >
+            +
+          </button>
         </div>
       </div>
-      <button onClick={toggleSearch} className="fixed top-5 right-5 opacity-30 hover:opacity-100 transition-all h-8 w-8 text-2xl">
+      <button
+        onClick={toggleSearch}
+        className="fixed right-5 top-5 h-8 w-8 text-2xl opacity-30 transition-all hover:opacity-100"
+      >
         <FontAwesomeIcon icon={faSearch} />
       </button>
 
-      <div className="flex content-center h-full overflow-auto">
+      <div className="flex h-full content-center overflow-auto">
         <Message message={message} setMessage={setMessage} />
         <Paragraph readingSpeed={readingSpeed} sentenceIndex={sentenceIndex} sentences={sentences} />
       </div>
 
-      <div className="lg:hidden fixed left-0 top-0 bottom-0 flex flex-wrap content-center">
-        <button className="text-7xl py-4 px-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goBack}>&lsaquo;</button>
+      <div className="fixed bottom-0 left-0 top-0 flex flex-wrap content-center lg:hidden">
+        <button
+          className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
+          onClick={goBack}
+        >
+          &lsaquo;
+        </button>
       </div>
-      <div className="lg:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
-        <button className="text-7xl py-4 px-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
+      <div className="fixed bottom-0 right-0 top-0 flex flex-wrap content-center lg:hidden">
+        <button
+          className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
+          onClick={goForward}
+        >
+          &rsaquo;
+        </button>
       </div>
 
-      <Search isVisible={isSearchVisible} setIsSearchVisible={setIsSearchVisible} sentences={sentences} setSentenceIndex={setSentenceIndex} />
-      
+      <Search
+        isVisible={isSearchVisible}
+        setIsSearchVisible={setIsSearchVisible}
+        sentences={sentences}
+        setSentenceIndex={setSentenceIndex}
+      />
+
       <Range sentenceIndex={sentenceIndex} sentencesLength={sentences.length} setSentenceIndex={setSentenceIndex} />
     </div>
   );
 }
 
-export default App
+export default App;
