@@ -82,7 +82,7 @@ function App() {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-cover bg-[url('/dune-wallpaper.jpg')] bg-center text-center text-white font-dm-serif p-8 text-2xl leading-normal sm:text-5xl sm:leading-tight">
-      <div className="opacity-50 hover:opacity-100 transition-all flex justify-center -mt-3">
+      <div className="opacity-30 hover:opacity-100 transition-all flex justify-center -mt-3">
         <div className="text-neutral-900 text-base bg-white bg-opacity-50 no-text-shadow rounded cursor-default">
           <button className="bg-white bg-opacity-50 h-8 w-8 rounded cursor-pointer hover:bg-opacity-100 transition-all" onClick={decreaseReadingSpeed}>-</button>
           <span className="inline-block px-4 text-sm">Reading Speed</span>
@@ -108,10 +108,10 @@ function App() {
       </div>
 
       <div className="lg:hidden fixed left-0 top-0 bottom-0 flex flex-wrap content-center">
-        <button className="text-8xl p-4 ml-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goBack}>&lsaquo;</button>
+        <button className="text-7xl py-4 px-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goBack}>&lsaquo;</button>
       </div>
       <div className="lg:hidden fixed right-0 top-0 bottom-0 flex flex-wrap content-center">
-        <button className="text-8xl p-4 mr-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
+        <button className="text-7xl py-4 px-1 opacity-50 hover:opacity-100 focus:opacity-50 transition-all" onClick={goForward}>&rsaquo;</button>
       </div>
 
       <Search isVisible={isSearchVisible} setIsSearchVisible={setIsSearchVisible} sentences={sentences} setSentenceIndex={setSentenceIndex} />
