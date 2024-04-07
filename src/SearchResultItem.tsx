@@ -19,7 +19,7 @@ export const SearchResultItem = ({ result, selectResult }: Props) => {
 			<div className="w-12 inline-block shrink-0">{result.sentenceIndex}</div>
 			<div>
 				<span>{firstPart}</span>
-				<mark>{highlightedPart}</mark>
+				<mark className="no-text-shadow">{highlightedPart}</mark>
 				<span>{lastPart}</span>
 			</div>
 		</div>
