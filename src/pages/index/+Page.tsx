@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { openDuneEpub } from "./epubParser";
-import { Message } from "./Message";
-import { Range } from "./Range";
-import { Search } from "./Search";
+import { openDuneEpub } from "../../epubParser";
+import { Message } from "../../Message";
+import { Range } from "../../Range";
+import { Search } from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Paragraph } from "./Paragraph";
+import { Paragraph } from "../../Paragraph";
 
 const chapters = await openDuneEpub();
 console.log({ chapters });
 const sentences = chapters?.flat() ?? [];
 
-function App() {
+export function Page() {
   const [readingSpeed, setReadingSpeed] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const s = parseFloat(params.get("s") ?? "1");
@@ -141,5 +141,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
