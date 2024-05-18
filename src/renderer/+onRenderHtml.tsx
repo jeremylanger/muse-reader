@@ -1,7 +1,7 @@
 // https://vike.dev/onRenderHtml
-export { onRenderHtml }
+export { onRenderHtml };
 
-import { escapeInject } from 'vike/server'
+import { escapeInject } from "vike/server";
 
 function onRenderHtml() {
   return escapeInject`
@@ -20,5 +20,5 @@ function onRenderHtml() {
     <div id="root"></div>
   </body>
 </html>
-`
+`;
 }
