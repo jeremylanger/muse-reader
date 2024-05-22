@@ -1,16 +1,20 @@
 export { PageLayout };
 
 import React, { ReactNode } from "react";
-// import '../index.css'
+import { PageContextProvider } from "./usePageContext";
+import { PageContext } from "vike/types";
+import '../index.css'
 
-function PageLayout({ children }: { children: ReactNode }) {
+function PageLayout({ children, pageContext }: { children: ReactNode; pageContext: PageContext; }) {
   return (
     <React.StrictMode>
-      <Navigation>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-      </Navigation>
-      <Content>{children}</Content>
+      <PageContextProvider pageContext={pageContext}>
+        <Navigation>
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+        </Navigation>
+        <Content>{children}</Content>
+      </PageContextProvider>
     </React.StrictMode>
   );
 }

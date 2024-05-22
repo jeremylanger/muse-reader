@@ -28,15 +28,22 @@ export class Reader {
     word.endsWith("</em>") || word.endsWith("</em>,") || word.endsWith("</em>.");
 
   static getWordsFromElement = (el: Element): string => {
-    let content = "";
+    try {
+      let content = "";
+      console.log(el.childNodes);
 
-    for (const child of el.childNodes) {
-      if (child.nodeType === Node.TEXT_NODE) content += child.textContent?.replaceAll("…", ". . .");
-      if (child.nodeType === Node.ELEMENT_NODE)
-        content += ` <${child.nodeName}>${this.getWordsFromElement(child as Element)}</${child.nodeName}>`;
+      for (const child of el.childNodes) {
+        console.log(child.nodeType, child.textContent, child.textContent?.length);
+        if (child.nodeType === Node.TEXT_NODE) content += child.textContent?.replaceAll("…", ". . .");
+        if (child.nodeType === Node.ELEMENT_NODE && child.nodeName !== "br")
+          content += ` <${child.nodeName}>${this.getWordsFromElement(child as Element)}</${child.nodeName}>`;
+      }
+
+      return content.trim();
+    } catch (error) {
+      console.error("Error getting words from element:", error, el);
+      return "";
     }
-
-    return content.trim();
   };
 
   static cleanText = (text?: string | null): string | undefined =>

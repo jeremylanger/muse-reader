@@ -1,17 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { openDuneEpub } from "../../epubParser";
 import { Message } from "../../Message";
 import { Range } from "../../Range";
 import { Search } from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Paragraph } from "../../Paragraph";
-
-const chapters = await openDuneEpub();
-console.log({ chapters });
-const sentences = chapters?.flat() ?? [];
+import { useData } from "../../renderer/useData";
 
 export function Page() {
+  const { sentences }: { sentences: Element[] } = useData();
+  console.log(sentences.length);
   const [readingSpeed, setReadingSpeed] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const s = parseFloat(params.get("s") ?? "1");
