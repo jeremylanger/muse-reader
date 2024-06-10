@@ -83,7 +83,7 @@ function App() {
   }, [readingSpeed, saveUrlParam]);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 bg-[url('/dune-wallpaper.jpg')] bg-cover bg-center p-8 text-center font-dm-serif text-2xl leading-normal text-white sm:text-5xl sm:leading-tight">
+    <div className="fixed bottom-0 left-0 right-0 top-0 bg-[url('/dune-wallpaper.jpg')] bg-cover bg-center p-8 text-center font-dm-serif text-2xl !leading-tight text-white sm:text-3xl md:text-5xl">
       <div className="fixed left-1/2 -mt-3 -translate-x-1/2 opacity-30 transition-all hover:opacity-100">
         <div className="no-text-shadow h-8 cursor-default rounded bg-white bg-opacity-50 text-base text-neutral-900">
           <button
