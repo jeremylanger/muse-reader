@@ -65,7 +65,7 @@ export const NextWord = ({ delay, word }: Props) => {
       {definitions && <DefinitionModal definitions={definitions} setDefinitions={setDefinitions} word={word} />}
       <span
         onClick={handleClick}
-        className={`${fadeIn ? "opacity-100" : "opacity-0"} mr-2 inline-block cursor-pointer rounded transition-opacity duration-500 hover:bg-white hover:bg-opacity-20 sm:mr-3`}
+        className={`${fadeIn ? "opacity-100" : "opacity-0"} mr-2 inline-block cursor-pointer rounded transition-opacity duration-500 hover:bg-white hover:bg-opacity-20 md:mr-3`}
         dangerouslySetInnerHTML={{ __html: word }}
       />
       {word.endsWith("<br>") && <br />}
