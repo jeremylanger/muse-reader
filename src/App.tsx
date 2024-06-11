@@ -83,7 +83,7 @@ function App() {
   }, [readingSpeed, saveUrlParam]);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 bg-[url('/dune-wallpaper.jpg')] bg-cover bg-center p-8 text-center font-dm-serif text-2xl !leading-tight text-white sm:text-3xl md:text-5xl">
+    <div className="fixed bottom-0 left-0 right-0 top-0 bg-[url('/dune-wallpaper.jpg')] bg-cover bg-center p-8 text-center font-dm-serif text-2xl !leading-tight text-white sm:text-3xl lg:text-5xl">
       <div className="fixed left-1/2 -mt-3 -translate-x-1/2 opacity-30 transition-all hover:opacity-100">
         <div className="no-text-shadow h-8 cursor-default rounded bg-white bg-opacity-50 text-base text-neutral-900">
           <button
@@ -108,12 +108,12 @@ function App() {
         <FontAwesomeIcon icon={faSearch} />
       </button>
 
-      <div className="flex h-full content-center overflow-auto">
+      <div className="flex h-full content-center overflow-auto px-safe">
         <Message message={message} setMessage={setMessage} />
         <Paragraph readingSpeed={readingSpeed} sentenceIndex={sentenceIndex} sentences={sentences} />
       </div>
 
-      <div className="fixed bottom-0 left-0 top-0 flex flex-wrap content-center lg:hidden">
+      <div className="fixed bottom-0 top-0 flex flex-wrap content-center left-safe lg:hidden">
         <button
           className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
           onClick={goBack}
@@ -121,7 +121,7 @@ function App() {
           &lsaquo;
         </button>
       </div>
-      <div className="fixed bottom-0 right-0 top-0 flex flex-wrap content-center lg:hidden">
+      <div className="fixed bottom-0 top-0 flex flex-wrap content-center right-safe lg:hidden">
         <button
           className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
           onClick={goForward}

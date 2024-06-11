@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  padding: env(safe-area-inset);
+}
+
 body {
   /* offset-x | offset-y | blur-radius | color */
   text-shadow:
