@@ -10,7 +10,7 @@ interface Props {
   setSentenceIndex: (index: number) => void;
 }
 
-export const Search = ({ isVisible, sentences, setIsSearchVisible, setSentenceIndex }: Props) => {
+export const SearchModal = ({ isVisible, sentences, setIsSearchVisible, setSentenceIndex }: Props) => {
   const [results, setResults] = useState<SearchResult[]>();
   const ref = useRef<HTMLInputElement>(null);
 
