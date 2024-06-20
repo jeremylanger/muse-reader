@@ -1,5 +1,5 @@
-import { NextWord } from "./NextWord";
-import { Reader } from "./reader";
+import { NextWord } from ".";
+import { Reader } from "../reader";
 
 interface Props {
   readingSpeed: number;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DefinitionModal } from "./DefinitionModal";
-import { Definition } from "./types";
+import { Definition } from "../types";
+import { DefinitionModal } from ".";
 
 interface Props {
   delay: number;

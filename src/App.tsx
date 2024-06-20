@@ -1,48 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
 import { openDuneEpub } from "./epubParser";
-import { Message } from "./Message";
-import { Range } from "./Range";
-import { SearchModal } from "./SearchModal";
-import { Paragraph } from "./Paragraph";
-import { GoBack, GoForward, ReadingSpeed, SearchButton } from "./components";
+import { GoBack, GoForward, Message, Paragraph, Range, ReadingSpeed, SearchButton, SearchModal } from "./components";
 
 const chapters = await openDuneEpub();
-console.log({ chapters });
 const sentences = chapters?.flat() ?? [];
 
 function App() {
   const [readingSpeed, setReadingSpeed] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const s = parseFloat(params.get("s") ?? "1");
-    return Math.max(0.2, s);
+    const speed = parseFloat(params.get("s") ?? "1");
+    const clampedSpeed = Math.max(0.2, speed);
+    return clampedSpeed;
   });
   const [sentenceIndex, setSentenceIndex] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    const p = parseInt(params.get("p") ?? "0");
-    // Keep it between the first and last page
-    return Math.min(sentences.length - 1, Math.max(0, p));
+    const paragraph = parseInt(params.get("p") ?? "0");
+    const clampedParagraphIndex = Math.min(sentences.length - 1, Math.max(0, paragraph));
+    return clampedParagraphIndex;
   });
   const [message, setMessage] = useState("");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-
-  const handleKeydown = useCallback((event: KeyboardEvent) => {
-    if (event.code === "KeyS" && event.metaKey) {
-      event.preventDefault();
-      setIsSearchVisible(curr => !curr);
-    }
-  }, []);
 
   const saveUrlParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
     params.set(key, value);
     window.history.pushState({}, "", `?${params.toString()}`);
   }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeydown);
-
-    return () => document.removeEventListener("keydown", handleKeydown);
-  }, [handleKeydown]);
 
   useEffect(() => {
     saveUrlParam("p", sentenceIndex.toString());
@@ -57,7 +40,7 @@ function App() {
       <div className="fixed left-1/2 -mt-3 -translate-x-1/2 opacity-30 transition-all hover:opacity-100">
         <ReadingSpeed isSearchVisible={isSearchVisible} setMessage={setMessage} setReadingSpeed={setReadingSpeed} />
       </div>
-      <SearchButton setIsSearchVisible={setIsSearchVisible} />
+      <SearchButton isSearchVisible={isSearchVisible} setIsSearchVisible={setIsSearchVisible} />
 
       <div className="flex h-full content-center overflow-auto px-safe">
         <Message message={message} setMessage={setMessage} />

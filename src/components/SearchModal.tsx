@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Reader } from "./reader";
-import { SearchResult } from "./types";
-import { SearchResultItem } from "./SearchResultItem";
+import { Reader } from "../reader";
+import { SearchResult } from "../types";
+import { SearchResultItem } from ".";
 
 interface Props {
   isVisible: boolean;

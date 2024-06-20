@@ -1,4 +1,4 @@
-import { Definition } from "./types";
+import { Definition } from "../types";
 
 interface Props {
   definitions: Definition[];
