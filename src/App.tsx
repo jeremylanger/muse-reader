@@ -113,19 +113,13 @@ function App() {
         <Paragraph readingSpeed={readingSpeed} sentenceIndex={sentenceIndex} sentences={sentences} />
       </div>
 
-      <div className="fixed bottom-0 top-0 flex flex-wrap content-center left-safe lg:hidden">
-        <button
-          className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
-          onClick={goBack}
-        >
+      <div className="fixed bottom-0 top-0 flex flex-wrap content-center left-safe lg:pl-2">
+        <button className="px-1 py-4 text-7xl opacity-50 transition-opacity hover:opacity-100" onClick={goBack}>
           &lsaquo;
         </button>
       </div>
-      <div className="fixed bottom-0 top-0 flex flex-wrap content-center right-safe lg:hidden">
-        <button
-          className="px-1 py-4 text-7xl opacity-50 transition-all hover:opacity-100 focus:opacity-50"
-          onClick={goForward}
-        >
+      <div className="fixed bottom-0 top-0 flex flex-wrap content-center right-safe lg:pr-2">
+        <button className="px-1 py-4 text-7xl opacity-50 transition-opacity hover:opacity-100" onClick={goForward}>
           &rsaquo;
         </button>
       </div>
