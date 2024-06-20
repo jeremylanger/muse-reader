@@ -15,9 +15,9 @@ export const SearchResultItem = ({ result, selectResult }: Props) => {
   const lastPart = result.matchedText?.slice(result.end + 1) || "";
 
   return (
-    <div
+    <button
       key={`${result.sentenceIndex}-${result.matchedText}`}
-      className="flex cursor-pointer bg-neutral-800 px-4 py-2 text-white drop-shadow-none hover:bg-neutral-600"
+      className="flex cursor-pointer appearance-none bg-neutral-800 px-4 py-2 text-left text-white drop-shadow-none hover:bg-neutral-600"
       onClick={handleClick}
     >
       <div className="inline-block w-12 shrink-0">{result.sentenceIndex}</div>
@@ -26,6 +26,6 @@ export const SearchResultItem = ({ result, selectResult }: Props) => {
         <mark className="no-text-shadow">{highlightedPart}</mark>
         <span>{lastPart}</span>
       </div>
-    </div>
+    </button>
   );
 };

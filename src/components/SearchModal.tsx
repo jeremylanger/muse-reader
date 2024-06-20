@@ -14,11 +14,12 @@ export const SearchModal = ({ isVisible, sentences, setIsSearchVisible, setSente
   const [results, setResults] = useState<SearchResult[]>();
   const ref = useRef<HTMLInputElement>(null);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
-
     setResults(Reader.search(sentences, text));
   };
+
+  const handleOnBackgroundClick = () => setIsSearchVisible(false);
 
   const selectResult = (index: number) => {
     setResults(undefined);
@@ -35,22 +36,28 @@ export const SearchModal = ({ isVisible, sentences, setIsSearchVisible, setSente
   if (!isVisible) return;
 
   return (
-    <div className="fixed left-0 top-0 z-10 h-full w-full bg-black bg-opacity-60">
+    <div className="fixed left-0 top-0 z-10 h-full w-full">
+      <button
+        className="fixed inset-0 -z-10 bg-black bg-opacity-60"
+        onClick={handleOnBackgroundClick}
+        aria-label="close"
+      />
       <div className="px-4 py-8">
         <input
           type="text"
           ref={ref}
-          onChange={handleOnChange}
+          onChange={handleOnInputChange}
           className="mb-2 rounded bg-white bg-opacity-80 px-5 py-2 text-neutral-800"
           placeholder="search..."
         />
-        <div
-          className={`${results?.length ? "block" : "hidden"} m-auto max-w-[600px] bg-neutral-800 text-left text-xl`}
-        >
-          {results?.map(result => (
-            <SearchResultItem key={result.sentenceIndex} result={result} selectResult={selectResult} />
-          ))}
-        </div>
+        {ref.current && ref.current?.value.length >= 3 && (
+          <div className={`m-auto max-w-[600px] bg-neutral-800 text-left text-xl`}>
+            {results?.map(result => (
+              <SearchResultItem key={result.sentenceIndex} result={result} selectResult={selectResult} />
+            ))}
+            {results?.length === 0 && <div className="p-4 text-center">No results found</div>}
+          </div>
+        )}
       </div>
     </div>
   );
